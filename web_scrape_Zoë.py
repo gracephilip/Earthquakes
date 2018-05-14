@@ -2,7 +2,7 @@
 # written by Zoë starting on May 11
 
 
-def get_data():
+def get_data(intensity, time):
 
     '''
     this function gathers the data necessary for plotting based on the criteria
@@ -14,8 +14,15 @@ def get_data():
     import requests
     import csv
 
-    # this portion of the code gets the data
-    url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv'
+    # this portion of the code gets the data based on the time specifications of the user
+    if time == 30:
+        url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv'
+    elif time == 7:
+        url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.csv'
+    elif time == 1:
+        url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv'
+    else:
+        url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.csv'
     response = requests.get(url)
     reader = csv.reader(response.text.strip().split('\n'))
     data = list(reader)
