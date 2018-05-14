@@ -3,7 +3,6 @@ import math
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 
-G = 6.67408e-11
 
 class App(QWidget):
     def __init__(self):
@@ -24,7 +23,7 @@ class App(QWidget):
         for i in dropdownItems:
             self.time_value.addItem(i)
         self.grid.addWidget(self.time_value, 2, 2, 1, 1)
-        self.intensity_label = QLabel("Intensity (0-10)")
+        self.intensity_label = QLabel("Intensity (0):")
         self.grid.addWidget(self.intensity_label, 3, 1, 1, 1)
         self.intensity_value = QSlider(Qt.Horizontal)
         self.intensity_value.setMinimum(0)
@@ -47,6 +46,7 @@ class App(QWidget):
 
         # Signals and slots
         self.calc_button.clicked.connect(self.get_earthquake)
+        self.intensity_value.sliderMoved.connect(lambda: self.intensity_label.setText('Intensity (' + str(self.intensity_value.sliderPosition()) + '):'))
 
         self.show()
 
