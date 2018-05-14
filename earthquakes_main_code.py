@@ -24,21 +24,21 @@ class App(QWidget):
         for i in dropdownItems:
             self.time_value.addItem(i)
         self.grid.addWidget(self.time_value, 2, 2, 1, 1)
-        self.side2_label = QLabel("Intensity (0-10)")
-        self.grid.addWidget(self.side2_label, 3, 1, 1, 1)
-        self.side2_value = QSlider(Qt.Horizontal)
-        self.side2_value.setMinimum(0)
-        self.side2_value.setMaximum(10)
-        self.side2_value.setValue(0)
-        self.side2_value.setTickPosition(QSlider.TicksBelow)
-        self.side2_value.setTickInterval(5)
-        self.grid.addWidget(self.side2_value, 3, 2, 1, 1)
-        self.separation_value = QLineEdit()
-        self.grid.addWidget(self.separation_value, 4, 2, 1, 1)
-        self.separation_label = QLabel("Separation (m): ")
-        self.grid.addWidget(self.separation_label, 4, 1, 1, 1)
+        self.intensity_label = QLabel("Intensity (0-10)")
+        self.grid.addWidget(self.intensity_label, 3, 1, 1, 1)
+        self.intensity_value = QSlider(Qt.Horizontal)
+        self.intensity_value.setMinimum(0)
+        self.intensity_value.setMaximum(10)
+        self.intensity_value.setValue(0)
+        self.intensity_value.setTickPosition(QSlider.TicksBelow)
+        self.intensity_value.setTickInterval(1)
+        self.grid.addWidget(self.intensity_value, 3, 2, 1, 1)
         self.calc_button = QPushButton("Calculate")
         self.grid.addWidget(self.calc_button, 5, 1, 1, 2)
+        self.boundary_label = QLabel("Show Boundaries")
+        self.grid.addWidget(self.boundary_label, 4, 1, 1, 1)
+        self.boundary_value = QCheckBox()
+        self.grid.addWidget(self.boundary_value, 4, 2, 1, 2)
 
         '''
         Stylistic modifications:
@@ -46,22 +46,27 @@ class App(QWidget):
         '''
 
         # Signals and slots
-        self.calc_button.clicked.connect(self.calc_force)
+        self.calc_button.clicked.connect(self.get_earthquake)
 
         self.show()
 
-    def calc_force(self):
-
-        try:
-            mass1 = float(self.time_value.text())
-            mass2 = float(self.side2_value.text())
-            r = float(self.separation_value.text())
-            force = G*mass1*mass2/r/r
-            self.answer_value.setText(str('{:.4e}'.format(force)) + " Newtons")
-        except ZeroDivisionError:
-            self.answer_value.setText("Separation of 0 not allowed")
-        except ValueError:
-            self.answer_value.setText("Enter numbers")
+    def get_earthquake(self):
+        print("earthquake")
+        intensity = self.intensity_value.sliderPosition()
+        interval = self.time_value.currentText()
+        if self.time_value.currentText() == 'Past 30 Days':
+            interval = 30
+        elif self.time_value.currentText() == 'Past 7 Days':
+            interval = 7
+        elif self.time_value.currentText() == 'Past Day':
+            interval = 1
+        elif self.time_value.currentText() == 'Past Hour':
+            interval = 1/24
+        will_show_boundaries = bool(int(int(self.boundary_value.checkState())/2))
+        print(intensity, interval, will_show_boundaries)
+        # show boundary
+        # try
+        # self.answer_value.setText("Enter numbers")
 
 
 if __name__ == "__main__":
