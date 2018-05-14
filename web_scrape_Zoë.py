@@ -30,7 +30,7 @@ def get_data():
     longitudes_for_plotting = []
     magnitudes_for_plotting = []
 
-    # filling the lists with the data 
+    # filling the lists with the data
     for i in range(len(data)):
         latitudes_for_plotting.append(data[i][1])
         longitudes_for_plotting.append(data[i][2])
