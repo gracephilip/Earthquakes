@@ -13,7 +13,6 @@ def get_data():
 
     import requests
     import csv
-    from bs4 import BeautifulSoup
 
     # this portion of the code gets the data
     url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv'
