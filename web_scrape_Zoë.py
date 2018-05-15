@@ -23,6 +23,7 @@ def get_data(intensity, time):
         url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_day.csv'
     else:
         url = 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_hour.csv'
+
     response = requests.get(url)
     reader = csv.reader(response.text.strip().split('\n'))
     data = list(reader)
@@ -31,6 +32,7 @@ def get_data(intensity, time):
     data.pop(0)
     data.sort(key=lambda x: float(x[4]))
 
+
     # forming the lists that will be passed
     latitudes_for_plotting = []
     longitudes_for_plotting = []
@@ -38,7 +40,13 @@ def get_data(intensity, time):
 
     # filling the lists with the data
     for i in range(len(data)):
-        latitudes_for_plotting.append(data[i][1])
-        longitudes_for_plotting.append(data[i][2])
-        magnitudes_for_plotting.append(data[i][4])
+        if float(data[i][4]) >= intensity:
+            latitudes_for_plotting.append(float(data[i][1]))
+            longitudes_for_plotting.append(float(data[i][2]))
+            magnitudes_for_plotting.append(float(data[i][4]))
+
+    return longitudes_for_plotting, latitudes_for_plotting, magnitudes_for_plotting
+
+
+
 
