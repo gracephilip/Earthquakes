@@ -8,7 +8,7 @@ def get_data(intensity, time):
     this function gathers the data necessary for plotting based on the criteria
     given by the user
     :return:
-    latitude, longitude and depth for the given earthquakes
+    latitude, longitude and magnitude for the given earthquakes
     '''
 
     import requests
