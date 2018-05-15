@@ -32,7 +32,6 @@ def get_data(intensity, time):
     data.pop(0)
     data.sort(key=lambda x: float(x[4]))
 
-
     # forming the lists that will be passed
     latitudes_for_plotting = []
     longitudes_for_plotting = []
