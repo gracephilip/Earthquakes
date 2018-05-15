@@ -2,6 +2,7 @@ import sys
 import math
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
+from web_scrape_Zoë import get_data
 
 
 class App(QWidget):
@@ -23,7 +24,7 @@ class App(QWidget):
         for i in dropdownItems:
             self.time_value.addItem(i)
         self.grid.addWidget(self.time_value, 2, 2, 1, 1)
-        self.intensity_label = QLabel("Intensity (0):")
+        self.intensity_label = QLabel("Minimum Intensity (0):")
         self.grid.addWidget(self.intensity_label, 3, 1, 1, 1)
         self.intensity_value = QSlider(Qt.Horizontal)
         self.intensity_value.setMinimum(0)
@@ -35,8 +36,10 @@ class App(QWidget):
         self.calc_button = QPushButton("Calculate")
         self.grid.addWidget(self.calc_button, 5, 1, 1, 2)
         self.boundary_label = QLabel("Show Boundaries")
+        self.will_show_boundaries = True
         self.grid.addWidget(self.boundary_label, 4, 1, 1, 1)
         self.boundary_value = QCheckBox()
+        self.boundary_value.setChecked(True)
         self.grid.addWidget(self.boundary_value, 4, 2, 1, 2)
 
         '''
@@ -46,7 +49,7 @@ class App(QWidget):
 
         # Signals and slots
         self.calc_button.clicked.connect(self.get_earthquake)
-        self.intensity_value.sliderMoved.connect(lambda: self.intensity_label.setText('Intensity (' + str(self.intensity_value.sliderPosition()) + '):'))
+        self.intensity_value.sliderMoved.connect(lambda: self.intensity_label.setText('Minimum Intensity (' + str(self.intensity_value.sliderPosition()) + '):'))
 
         self.show()
 
@@ -62,8 +65,13 @@ class App(QWidget):
             interval = 1
         elif self.time_value.currentText() == 'Past Hour':
             interval = 1/24
-        will_show_boundaries = bool(int(int(self.boundary_value.checkState())/2))
-        print(intensity, interval, will_show_boundaries)
+        self.will_show_boundaries = bool(int(int(self.boundary_value.checkState())/2))
+
+        longitudes, latitudes, magnitudes = get_data(intensity, interval)
+        print(longitudes)
+        print(latitudes)
+        print(magnitudes)
+        print(self.will_show_boundaries)
         # show boundary
         # try
         # self.answer_value.setText("Enter numbers")
