@@ -17,6 +17,7 @@ class App(QWidget):
         # Make widgets
         self.title = QLabel("Worldwide Earthquakes")
         self.grid.addWidget(self.title, 1, 1, 1 ,1)
+        # Time interval
         self.time_label = QLabel("Interval: ")
         self.grid.addWidget(self.time_label, 2, 1, 1, 1)
         self.time_value = QComboBox()
@@ -24,6 +25,7 @@ class App(QWidget):
         for i in dropdownItems:
             self.time_value.addItem(i)
         self.grid.addWidget(self.time_value, 2, 2, 1, 1)
+        # Intensity
         self.intensity_label = QLabel("Minimum Intensity (0):")
         self.grid.addWidget(self.intensity_label, 3, 1, 1, 1)
         self.intensity_value = QSlider(Qt.Horizontal)
@@ -33,8 +35,10 @@ class App(QWidget):
         self.intensity_value.setTickPosition(QSlider.TicksBelow)
         self.intensity_value.setTickInterval(1)
         self.grid.addWidget(self.intensity_value, 3, 2, 1, 1)
-        self.calc_button = QPushButton("Calculate")
-        self.grid.addWidget(self.calc_button, 5, 1, 1, 2)
+        # Search button
+        self.search_button = QPushButton("Search")
+        self.grid.addWidget(self.search_button, 5, 1, 1, 2)
+        # Boundaries
         self.boundary_label = QLabel("Show Boundaries")
         self.will_show_boundaries = True
         self.grid.addWidget(self.boundary_label, 4, 1, 1, 1)
@@ -44,17 +48,16 @@ class App(QWidget):
 
         '''
         Stylistic modifications:
-        - White background
+        - (None so far...)
         '''
 
         # Signals and slots
-        self.calc_button.clicked.connect(self.get_earthquake)
+        self.search_button.clicked.connect(self.get_earthquake)
         self.intensity_value.sliderMoved.connect(lambda: self.intensity_label.setText('Minimum Intensity (' + str(self.intensity_value.sliderPosition()) + '):'))
 
         self.show()
 
     def get_earthquake(self):
-        print("earthquake")
         intensity = self.intensity_value.sliderPosition()
         interval = self.time_value.currentText()
         if self.time_value.currentText() == 'Past 30 Days':
