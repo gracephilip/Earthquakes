@@ -2,7 +2,10 @@ import sys
 import math
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
+from PyQt5 import QtWidgets
 from web_scrape_Zoë import get_data
+from eq_gmplot import plotting_function
+import qdarkstyle
 
 
 class App(QWidget):
@@ -16,6 +19,8 @@ class App(QWidget):
 
         # Make widgets
         self.title = QLabel("Worldwide Earthquakes")
+        with open('main.css', 'r') as f:
+            self.title.setStyleSheet(f.read())
         self.grid.addWidget(self.title, 1, 1, 1 ,1)
         # Time interval
         self.time_label = QLabel("Interval: ")
@@ -39,7 +44,7 @@ class App(QWidget):
         self.search_button = QPushButton("Search")
         self.grid.addWidget(self.search_button, 5, 1, 1, 2)
         # Boundaries
-        self.boundary_label = QLabel("Show Boundaries")
+        self.boundary_label = QLabel("Show Boundaries:")
         self.will_show_boundaries = True
         self.grid.addWidget(self.boundary_label, 4, 1, 1, 1)
         self.boundary_value = QCheckBox()
@@ -50,14 +55,18 @@ class App(QWidget):
         Stylistic modifications:
         - (None so far...)
         '''
+        app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
 
         # Signals and slots
         self.search_button.clicked.connect(self.get_earthquake)
         self.intensity_value.sliderMoved.connect(lambda: self.intensity_label.setText('Minimum Intensity (' + str(self.intensity_value.sliderPosition()) + '):'))
+        self.intensity_value.sliderPressed.connect(lambda: self.intensity_label.setText('Minimum Intensity (' + str(self.intensity_value.sliderPosition()) + '):'))
 
         self.show()
 
     def get_earthquake(self):
+        self.search_button.setText("Loading...")
+        QtWidgets.qApp.processEvents()
         intensity = self.intensity_value.sliderPosition()
         interval = self.time_value.currentText()
         if self.time_value.currentText() == 'Past 30 Days':
@@ -71,13 +80,9 @@ class App(QWidget):
         self.will_show_boundaries = bool(int(int(self.boundary_value.checkState())/2))
 
         longitudes, latitudes, magnitudes = get_data(intensity, interval)
-        print(longitudes)
-        print(latitudes)
-        print(magnitudes)
-        print(self.will_show_boundaries)
-        # show boundary
-        # try
-        # self.answer_value.setText("Enter numbers")
+
+        plotting_function(latitudes, longitudes, magnitudes)
+        self.search_button.setText("Search")
 
 
 if __name__ == "__main__":
@@ -85,5 +90,6 @@ if __name__ == "__main__":
     gui = App()
     sys.exit(app.exec())
 
-# TODO - Make a slider with magnitude.
-# TODO - Scrape past 30 days on start.
+# TODO - Plot boundaries.
+# TODO - Improve the style and interface geometry.
+# TODO - Add a QWebView.
