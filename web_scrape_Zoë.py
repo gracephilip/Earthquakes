@@ -27,10 +27,25 @@ def get_data(intensity, time):
     response = requests.get(url)
     reader = csv.reader(response.text.strip().split('\n'))
     data = list(reader)
+    #print(data)
 
     # setting up the data so it can be used
     data.pop(0)
+    new_data = []
+    for i in range(len(data)):
+        try:
+            mag = float(data[i][4])
+            new_data.append(data[i])
+            new_data[-1][4] = mag
+        except:
+            print("Bad data Zoe!")
+
+
+    data = new_data[:]
+
     data.sort(key=lambda x: float(x[4]))
+
+    print(data)
 
     # forming the lists that will be passed
     latitudes_for_plotting = []
@@ -48,4 +63,6 @@ def get_data(intensity, time):
 
 
 
-
+if __name__ == "__main__":
+    plot_data = get_data(1, 30)
+    print(plot_data)
