@@ -3,7 +3,7 @@ import math
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets
-from web_scrape_Zoë import get_data
+from web_scrape import get_data
 from eq_gmplot import plotting_function
 import qdarkstyle
 
