@@ -2,7 +2,7 @@ import sys
 import math
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-from web_scrape_Zoë import get_data
+from web_scrape import get_data
 
 
 class App(QWidget):
