@@ -16,7 +16,7 @@ plates = [[-0.4379, -54.8518], [-0.0388257, -54.6772], [0.443182, -54.4512], [0.
 
 
 
-def plotting_function(my_lats, my_longs, my_mags, plates, plate_lats, plate_longs):
+def plotting_function(my_lats, my_longs, my_mags):
     apikey = "AIzaSyD65be4pywe7-y4GjMmzZMidOpdmu2lkXo"
 
 

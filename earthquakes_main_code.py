@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets
 from web_scrape import get_data
 from eq_gmplot import plotting_function
+from eq_gmplot import plates
 import qdarkstyle
 
 
