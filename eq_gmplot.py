@@ -61,8 +61,8 @@ def plotting_function(my_lats, my_longs, my_mags):
     file.close()
 
     for plate in big_data:
-        plate_lats = [x[0] for x in plate]
-        plate_longs = [x[1] for x in plate]
+        plate_lats = [x[1] for x in plate]
+        plate_longs = [x[0] for x in plate]
 
         mymap.plot(plate_lats, plate_longs, ew=2, ec="red")  # lats, longs, color, face color, edge width, edge color
 
