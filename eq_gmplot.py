@@ -16,7 +16,7 @@ plates = [[-0.4379, -54.8518], [-0.0388257, -54.6772], [0.443182, -54.4512], [0.
 
 
 
-def plotting_function(my_lats, my_longs, my_mags):
+def plotting_function(my_lats, my_longs, my_mags, show_boundaries):
     apikey = "AIzaSyD65be4pywe7-y4GjMmzZMidOpdmu2lkXo"
 
 
@@ -64,7 +64,8 @@ def plotting_function(my_lats, my_longs, my_mags):
         plate_lats = [x[1] for x in plate]
         plate_longs = [x[0] for x in plate]
 
-        mymap.plot(plate_lats, plate_longs, ew=2, ec="red")  # lats, longs, color, face color, edge width, edge color
+        if show_boundaries:
+            mymap.plot(plate_lats, plate_longs, ew=2, ec="black")  # lats, longs, color, face color, edge width, edge color
 
     for i in range(len(my_lats)):
         mymap.circle(my_lats[i], my_longs[i], my_mags[i]*10000, "#FF0000", ew=1) # lat, long, radius(m), web_color, edge_width=int

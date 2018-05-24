@@ -82,7 +82,7 @@ class App(QWidget):
 
         longitudes, latitudes, magnitudes = get_data(intensity, interval)
 
-        plotting_function(latitudes, longitudes, magnitudes)
+        plotting_function(latitudes, longitudes, magnitudes, self.will_show_boundaries)
         self.search_button.setText("Search")
 
 
